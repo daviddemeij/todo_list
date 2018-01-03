@@ -1,0 +1,23 @@
+
+
+<html>
+<h1>To do lists:</h1>
+    <div>
+        <form action="/todo_django_app/" method="post">
+            {% csrf_token %}
+            {{ form }}
+            <input type="submit" value="Submit" />
+        </form>
+    </div>
+    <div>
+    {% for category, todo_list in todo_lists.items %}
+        <h3>{{ category }}</h3>
+        <ul>
+            {% for item in todo_list.todo %}
+            <li>{{ item }}<form action="/todo_django_app/" method="get" ><button type="submit" class="btn" value="{{ item }}" name="remove">remove</button></form></li>
+            {% endfor %}
+        </ul>
+    {% endfor %}
+    </div>
+
+</html>

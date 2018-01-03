@@ -1,3 +1,4 @@
+from django.db import models
 import random
 import re
 import gensim
@@ -46,8 +47,6 @@ def get_closest_category(categories, item):
                     similarity[category] += (model.similarity(keyword.lower(), item_word.lower()) / float(len(categories[category])))
     return max(similarity.keys(), key=(lambda key: similarity[key]))
 
-
-
 class todo_list():
     def __init__(self, items=[]):
         self.todo = items
@@ -90,6 +89,18 @@ class todo_app():
                 counter += 1
         return result
 
+    def todo_html(self):
+        result = "<html>"
+        counter = 1
+        self.category_counter = {}
+        for nr, key in enumerate(self.todo_lists.keys()):
+            self.category_counter[key] = counter
+            result += key + "</br>"
+            for nr, item in enumerate(self.todo_lists[key].todo):
+                result += "    - " + str(nr + self.category_counter[key]) + ". " + str(item) + "<br>"
+                counter += 1
+        return result
+
     def add(self, items):
         if isinstance(items, list):
             for item in items:
@@ -125,3 +136,4 @@ class todo_app():
                 self.todo_lists[category].remove(item_nr - self.category_counter[category])
             else:
                 print("Category not found!")
+# Create your models here.
